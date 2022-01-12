@@ -1,7 +1,6 @@
 <template>
     <div class="main"> 
-
-        <h2>VUE TODO APP</h2>
+    <Logo></Logo>
 
         <div class="input__block">
             <input class="input" 
@@ -28,14 +27,17 @@
                     </div>
                     <input 
                       class="edit__item" 
-                      :value='index' type="checkbox" 
-                      v-model="checked">
+                      :value="index" 
+                      type="checkbox" 
+                      v-model="checked"
+                      >
                     <div class="edit__item" @click="deleteTask(index)">
                         <span class="fa fa-trash"></span>
                     </div>
                 </div>
             </div>
         </div>  
+        <!-- <span>Checked {{ >checked }}</span> -->
         <br>
         <div >
           <v-app id="inspire">
@@ -52,6 +54,7 @@
                     dark
                     v-bind="attrs"
                     v-on="on"
+                    v-show="isShown()"
                   >
                     DELETE
                   </v-btn>
@@ -72,7 +75,7 @@
                     <v-btn
                       color="green darken-1"
                       text
-                      @click="deleteSelected(index)"
+                      @click="deleteSelected()"
                     >
                       YES
                     </v-btn>
@@ -83,17 +86,27 @@
           </v-app>
         </div>
 
+
+
     </div>
 </template>
 
 <script>
-      
+
+
+import Logo from './components/Logo.vue';
+
 export default {
+    name: 'App',
+    components: {
+        Logo,
+    },
     data(){
         return {
             dialog: false,
             task: '',
             editedTask: null,
+            isChecked: true,
             checked: [],
             tasks: [
                 {
@@ -136,6 +149,12 @@ export default {
         editTask(index){
             this.task = this.tasks[index].name
             this.editedTask = index
+        },
+        isShown(){
+          if (this.checked.length > 0) {
+            return true
+          } else {
+            return false}
         }
     }
 }
